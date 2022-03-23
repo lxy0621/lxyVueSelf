@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEMO</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #app {
+            width: 1200px;
+            margin: 0 auto;
+            margin-top: 40px;
+        }
+
+        .addBody {
+            width: 100%;
+            border: 1px solid #ccc;
+            padding: 6px 10px;
+            box-sizing: border-box;
+            border-radius: 4px;
+        }
+
+        .dataShow {
+            margin-top: 20px;
+            width: 100%;
+            border: 1px solid #ccc;
+            padding: 6px 10px;
+            box-sizing: border-box;
+            border-radius: 4px;
+        }
+
+        .addCar {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .title {
+            padding-bottom: 10px;
+            box-sizing: border-box;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .title_label {
+            font-size: 14px;
+            background: #ccc;
+            width: 60px;
+            height: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .addCar {
+            padding-top: 10px;
+            box-sizing: border-box;
+        }
+
+        .addInput input {
+            height: 24px;
+            width: 160px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .addBtn {
+            margin-left: 10px;
+            width: 80px;
+            height: 24px;
+            color: #fff;
+            background: rgb(6, 62, 216);
+            font-size: 14px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="addBody">
+            <div class="title">添加品牌</div>
+            <div class="addCar">
+                <div class="title_label">品牌名称</div>
+                <div class="addInput">
+                    <input type="text" placeholder="请输入品牌名称" v-model="addLogo" @keyup.enter="addBtn()"/>
+                </div>
+                <div class="addBtn" @click="addBtn()">添加品牌</div>
+            </div>
+        </div>
+        <div class="dataShow">
+            <table>
+                <thead style="background: rgb(34, 144, 218);color: #fff;font-size: 14px;">
+                    <tr>
+                        <td style="width: 80px;text-align: center;">#</td>
+                        <td style="width: 240px;text-align: center;">品牌名称</td>
+                        <td style="width: 300px;text-align: center;">状态</td>
+                        <td style="width: 500px;text-align: center;">创建时间</td>
+                        <td style="width: 80px;text-align: center;">操作</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item,index) in list" style="font-size: 14px;">
+                        <td style="width: 80px;text-align: center;">{{ item.id }}</td>
+                        <td style="width: 240px;text-align: center;">{{ item.name }}</td>
+                        <td style="width: 300px;text-align: center;">{{ item.status }}</td>
+                        <td style="width: 500px;text-align: center;">{{ setTime(item.time) }}</td>
+                        <td style="width: 80px;text-align: center;"><a href="#" :id="item.id" @click="deleteBtn(item.id)">删除</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="./../js/vue 2.6.14.js"></script>
+    <script>
+        const cm = new Vue({
+            el: '#app',
+            data: {
+                list: [
+                    { id: 1, name: '帕萨特', status: true, time: new Date() }
+                ],
+                addLogo: ''
+            },
+            methods: {
+                setTime(date) {
+                    var y = date.getFullYear();
+                    var m = date.getMonth() + 1;
+                    m = m < 10 ? '0' + m : m;
+                    var d = date.getDate();
+                    d = d < 10 ? ('0' + d) : d;
+                    return y + '-' + m + '-' + d;
+                },
+                addBtn() {
+                    this.list.unshift({ id: this.list.length + 1, name: this.addLogo, status: true, time: new Date() })
+                    this.addLogo = ''
+                },
+                deleteBtn(id){
+                    this.list = this.list.filter( item => item.id != id );
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

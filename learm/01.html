@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{ message }}</p>
+        <input type="text" :placeholder="placeholder">
+        <div>{{ realy == false ? "yes" : "no" }}</div>
+        <div :title="'id' + id">showId</div>
+        <div style="border: 1px solid #ccc;">
+            <p>chount的值是：{{ count }}</p>
+            <button @click="addCount(1,$event)">+1</button>
+            <button @click="addCount(-1,$event)">-1</button>
+        </div>
+        <input type="text" @keyup.esc="esc()" v-model="input2" placeholder="按回车清空" />
+        <a href="www.baidu.com" @click.prevent="show">跳转链接</a>
+        <div>
+            <input type="text" v-model.number="n1"> + <input type="text" v-model.number="n2"> = <span>{{ n1+n2 }}</span>
+        </div>
+        <p v-if="check">V-IF</p>
+        <p v-show="check">V-SHOW</p>
+        <div v-if="number >= 90">优秀</div>
+        <div v-else-if="number >= 80 && number < 90">良好</div>
+        <div v-else="number < 80">一般</div>
+        <!-- v-for : 只要用到v-for 就一定绑定 :key 属性 尽量把id作为key的值 且key的值要求为字符串或number型 key的值不能重复-->
+        <div class="animal">
+            <div v-for="(item,index) in animal" :key="item.id" :title="item.id">{{ index }} -- {{ item.name }}</div>
+        </div>
+    </div>
+
+    <script src="./../js/vue 2.6.14.js"></script>
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                message: "lxy",
+                placeholder: "请输入用户",
+                realy: true,
+                id: 2,
+                count: 0,
+                input2: '',
+                n1: 0,
+                n2: 0,
+                check:true,
+                number:63,
+                animal:[
+                    {id:0,name:'狗'},
+                    {id:1,name:'猫'},
+                    {id:2,name:'鱼'},
+                    {id:3,name:'猪'},
+                ]
+            },
+            methods: {
+                addCount(num, e) {
+                    this.count += num
+                    if (this.count % 2 == 0) {
+                        e.target.style.backgroundColor = 'red'
+                    } else {
+                        e.target.style.backgroundColor = ''
+                    }
+                },
+                show() {
+                    e.preventDefault()
+                    console.log('跳转了')
+                },
+                esc() {
+                    this.input2 = ''
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
